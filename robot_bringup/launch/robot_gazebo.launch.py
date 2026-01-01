@@ -56,9 +56,9 @@ def generate_launch_description():
 
     # Node to spawn the robot into Gazebo
     spawn_entity = Node(
-        package="gazebo_ros",
-        executable="spawn_entity.py",
-        arguments=["-topic", "robot_description", "-entity", "mobile_manipulator"],
+        package="ros_gz_sim",
+        executable="create",
+        arguments=["-topic", "robot_description", "-name", "mobile_manipulator"],
         output="screen",
     )
 

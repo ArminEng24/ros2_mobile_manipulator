@@ -28,6 +28,12 @@ def generate_launch_description():
         "robot_world.sdf",
     )
 
+    gazebo_bridge_config = os.path.join(
+        get_package_share_path("robot_bringup"),
+        "config",
+        "gazebo_bridge.yaml",
+    )
+
     # Generate xacro command to process the URDF file
     robot_description = ParameterValue(Command(["xacro ", urdf_path]), value_type=str)
 
@@ -69,6 +75,14 @@ def generate_launch_description():
         output="screen",
     )
 
+    bridge_node = Node(
+        package="ros_gz_bridge",
+        executable="parameter_bridge",
+        name="gz_bridge",
+        parameters=[{"config_file": gazebo_bridge_config}],
+        output="screen",
+    )
+
     return LaunchDescription(
         [
             gz_launch,
@@ -77,5 +91,6 @@ def generate_launch_description():
             # joint_state_publisher_node,
             rviz_node,
             spawn_entity,
+            bridge_node,
         ]
     )

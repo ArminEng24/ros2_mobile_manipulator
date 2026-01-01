@@ -1,3 +1,25 @@
 <? xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Define mobile base properties -->
+<property name="base_length" value="0.6"/>
+<property name="base_width" value="0.4"/>
+<property name="base_height" value="0.2"/>
+<property name="wheel_radius" value="0.1"/>
+<property name="wheel_width" value="0.05"/>
+
+<!-- Base footprint -->
+<link name="base_footprint"/>
+
+<!--Mobile base link-->
+<link name="mobile_base">
+    <visual>
+        <geometry>
+            <box size="${base_length} ${base_width} ${base_height}"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="blue"/>
+    </visual>
+</link>
+
 </robot>

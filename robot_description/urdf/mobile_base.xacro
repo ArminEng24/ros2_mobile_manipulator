@@ -7,6 +7,7 @@
 <property name="base_height" value="0.2"/>
 <property name="wheel_radius" value="0.1"/>
 <property name="wheel_width" value="0.05"/>
+<property name="caster_radius" value="0.05"/>
 
 <!-- Base footprint -->
 <link name="base_footprint"/>
@@ -19,6 +20,34 @@
         </geometry>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <material name="blue"/>
+    </visual>
+</link>
+
+<!-- Wheels links -->
+<xacro:macro name="wheel_link" params="prefix">
+    <link name="${prefix}_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_width}"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="grey"/>
+        </visual>
+    </link>
+</xacro:macro>
+
+<!-- Instantiate wheel links -->
+<xacro:wheel_link prefix="left_wheel"/>
+<xacro:wheel_link prefix="right_wheel"/>
+
+<!-- Caster wheel link -->
+<link name="caster_wheel">
+    <visual>
+        <geometry>
+            <sphere radius="${caster_radius}"/>
+        </geometry>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <material name="grey"/>
     </visual>
 </link>
 

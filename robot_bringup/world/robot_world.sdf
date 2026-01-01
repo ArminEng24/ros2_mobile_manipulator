@@ -128,17 +128,17 @@
       <self_collide>false</self_collide>
     </model>
     <include>
-      <uri>file:///home/linos/.gz/fuel/fuel.gazebosim.org/openrobotics/models/dining table/1</uri>
+      <uri>file:///home/linos/ros2_ws/src/ros2_mobile_manipulator/robot_bringup/models/dining table/1</uri>
       <name>DiningTable</name>
       <pose>1.7896966934204102 -2.26169753074646 0 0 0 1.5561600286169426</pose>
     </include>
     <include>
-      <uri>file:///home/linos/.gz/fuel/fuel.gazebosim.org/openrobotics/models/office chair/1</uri>
+      <uri>file:///home/linos/ros2_ws/src/ros2_mobile_manipulator/robot_bringup/models/office chair/1</uri>
       <name>OfficeChair</name>
       <pose>1.4984417492125761 -3.0868733924952565 0 0 0 0</pose>
     </include>
     <include>
-      <uri>file:///home/linos/.gz/fuel/fuel.gazebosim.org/openrobotics/models/turtle/5</uri>
+      <uri>file:///home/linos/ros2_ws/src/ros2_mobile_manipulator/robot_bringup/models/turtle/5</uri>
       <name>turtle</name>
       <pose>0.33651575199442313 1.7020069861940446 0.064999995881915018 1.639504133021927e-17 7.1287872369037472e-07 8.6268262238017308e-17</pose>
     </include>
@@ -147,14 +147,14 @@
         <visual name='visual'>
           <geometry>
             <mesh>
-              <uri>file:///home/linos/Documents/shelf/meshes/shelf_big_movai.dae</uri>
+              <uri>file:///home/linos/ros2_ws/src/ros2_mobile_manipulator/robot_bringup/models/shelf/meshes/shelf_big_movai.dae</uri>
             </mesh>
           </geometry>
         </visual>
         <collision name='collision'>
           <geometry>
             <mesh>
-              <uri>file:///home/linos/Documents/shelf/meshes/shelf_big_movai.dae</uri>
+              <uri>file:///home/linos/ros2_ws/src/ros2_mobile_manipulator/robot_bringup/models/shelf/meshes/shelf_big_movai.dae</uri>
             </mesh>
           </geometry>
         </collision>
@@ -178,7 +178,7 @@
       <self_collide>false</self_collide>
     </model>
     <include>
-      <uri>file:///home/linos/.gz/fuel/fuel.gazebosim.org/openrobotics/models/grey wall/3</uri>
+      <uri>file:///home/linos/ros2_ws/src/ros2_mobile_manipulator/robot_bringup/models/grey wall/3</uri>
       <name>grey_wall</name>
       <pose>8.3631153106689453 -1.4097086191177368 0 0 0 1.5436200454893385</pose>
     </include>

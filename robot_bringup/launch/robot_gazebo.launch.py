@@ -30,7 +30,7 @@ def generate_launch_description():
 
     gazebo_bridge_config = os.path.join(
         get_package_share_path("robot_bringup"),
-        "config",
+        "bridge_config",
         "gazebo_bridge.yaml",
     )
 

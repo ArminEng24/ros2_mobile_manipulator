@@ -6,5 +6,7 @@
 <xacro:include filename="common_properties.xacro"/>
 <!-- Include mobile base -->
 <xacro:include filename="mobile_base.xacro"/>
+<!-- Include arm -->
+<xacro:include filename="arm.xacro"/>
 
 </robot>

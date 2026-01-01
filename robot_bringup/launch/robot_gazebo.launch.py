@@ -47,12 +47,12 @@ def generate_launch_description():
         output="screen",
     )
 
-    # Node to publish joint states
-    joint_state_publisher_node = Node(
-        package="joint_state_publisher_gui",
-        executable="joint_state_publisher_gui",
-        name="joint_state_publisher_gui",
-    )
+    # Node to publish joint states (uncomment to use GUI)
+    # joint_state_publisher_node = Node(
+    #     package="joint_state_publisher_gui",
+    #     executable="joint_state_publisher_gui",
+    #     name="joint_state_publisher_gui",
+    # )
     # Include Gazebo launch file
     gz_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(

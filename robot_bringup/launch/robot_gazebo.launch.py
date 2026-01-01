@@ -83,6 +83,24 @@ def generate_launch_description():
         output="screen",
     )
 
+    # Static transform publisher to connect camera_link to the frame used by Gazebo
+    camera_tf_node = Node(
+        package="tf2_ros",
+        executable="static_transform_publisher",
+        name="camera_frame_publisher",
+        arguments=[
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "0",
+            "camera_link",
+            "mobile_manipulator/base_footprint/camera",
+        ],
+        output="screen",
+    )
+
     return LaunchDescription(
         [
             gz_launch,
@@ -92,5 +110,6 @@ def generate_launch_description():
             rviz_node,
             spawn_entity,
             bridge_node,
+            camera_tf_node,
         ]
     )

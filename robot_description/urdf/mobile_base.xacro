@@ -34,8 +34,8 @@
     </link>
 </xacro:macro>
 
-<xacro:wheel_link prefix="left_wheel"/>
-<xacro:wheel_link prefix="right_wheel"/>
+<xacro:wheel_link prefix="left"/>
+<xacro:wheel_link prefix="right"/>
 
 <link name="caster_wheel_link">
     <visual>

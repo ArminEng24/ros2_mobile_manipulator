@@ -2,12 +2,12 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <!-- Define mobile base properties -->
-<property name="base_length" value="0.6"/>
-<property name="base_width" value="0.4"/>
-<property name="base_height" value="0.2"/>
-<property name="wheel_radius" value="0.1"/>
-<property name="wheel_width" value="0.05"/>
-<property name="caster_radius" value="0.05"/>
+<xacro:property name="base_length" value="0.6"/>
+<xacro:property name="base_width" value="0.4"/>
+<xacro:property name="base_height" value="0.2"/>
+<xacro:property name="wheel_radius" value="0.1"/>
+<xacro:property name="wheel_width" value="0.05"/>
+<xacro:property name="caster_radius" value="0.05"/>
 
 <!-- Links -->
 <link name="base_footprint"/>

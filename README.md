@@ -1,199 +1,196 @@
-# ROS 2 Mobile Manipulator — **Hercules**
-A ROS 2 + Gazebo Harmonic simulation of a differential‑drive mobile robot equipped with a 2‑DOF manipulator arm and an onboard RGB camera.
+# ROS 2 Mobile Manipulator
 
-This project was built as the final project for the **ROS2 For Beginners Level 2** course and extended with additional features such as a camera, improved URDF structure, and Harmonic compatibility.
+## Overview
 
----
+This repository contains a complete ROS 2 implementation of a mobile manipulator system featuring a differential-drive mobile base with an integrated 2-DOF robotic arm and RGB camera. The system is designed for simulation in Gazebo Harmonic and provides a modular framework for robotics research and development.
 
-## 🚀 Overview
+### System Components
 
-**Hercules** combines:
+- **Mobile Base**: Differential-drive platform with velocity control
+- **Manipulator**: 2-DOF robotic arm with revolute joints (0-90° range)
+- **Perception**: Forward-facing RGB camera with optical frame
+- **Simulation**: Full Gazebo Harmonic integration with physics modeling
+- **Control**: ROS 2 Control framework with position controllers
 
-- A differential‑drive mobile base  
-- A 2‑DOF robotic arm (forearm + hand, each rotating 0 → 90° around the Y‑axis)  
-- A forward‑facing RGB camera  
-- A complete Gazebo Harmonic simulation  
-- Modular URDF/Xacro robot description  
-- ROS 2 Control, TF, RViz, and ROS ↔ Gazebo bridging  
+### Key Features
 
-This project demonstrates a full ROS 2 robot pipeline: modeling → simulation → control → visualization.
+- Modular URDF/Xacro robot description architecture
+- ROS 2 Control integration for real-time joint control
+- Gazebo-ROS 2 bridge for seamless communication
+- Transform (TF) tree publishing for spatial relationships
+- RViz visualization support
+- Configurable joint dynamics (friction and damping)
+- Camera sensor integration with standard ROS interfaces
 
----
+## Prerequisites
 
-## ✨ Features
+- **ROS 2**: Jazzy (tested) - Humble may also work but is untested
+- **Gazebo**: Harmonic
+- **Operating System**: Ubuntu 24.04 (for Jazzy) or Ubuntu 22.04 (for Humble)
+- **Required ROS 2 Packages**:
+  - `ros-jazzy-gazebo-ros-pkgs` (or `ros-humble-*` for Humble)
+  - `ros-jazzy-ros2-control`
+  - `ros-jazzy-ros2-controllers`
+  - `ros-jazzy-xacro`
+  - `ros-jazzy-joint-state-publisher`
 
-- Differential‑drive mobile base  
-- 2‑DOF manipulator arm  
-  - Forearm joint: 0 → 90°  
-  - Hand joint: 0 → 90°  
-  - Revolute joints with friction + damping  
-- Onboard RGB camera with optical frame  
-- URDF/Xacro modular robot description  
-- Gazebo Harmonic simulation  
-- ROS 2 Control integration  
-- JointState + TF publishing  
-- RViz visualization  
-- ROS ↔ Gazebo bridge for motion control  
-- Teleoperation for base and arm  
+## Repository Structure
 
----
-
-## 📁 Repository Structure
+## Repository Structure
 
 ```
 ros2_mobile_manipulator/
-├── my_robot_description/     # URDF, Xacro, meshes, materials
-├── my_robot_gazebo/          # Gazebo plugins, world files, configs
-├── my_robot_bringup/         # Launch files for RViz + Gazebo
-├── my_robot_bridge/          # ROS ↔ Gazebo bridge YAML
+├── robot_description/
+│   ├── urdf/                 # URDF and Xacro files
+│   ├── launch/               # RViz launch files
+│   └── rviz/                 # RViz configuration
+├── robot_bringup/
+│   ├── launch/               # Main launch files
+│   ├── world/                # Gazebo world files
+│   ├── models/               # Gazebo models
+│   └── bridge_config/        # Gazebo-ROS bridge configuration
 └── README.md
 ```
 
----
+## Installation
 
-## 🔧 Build Instructions
+### Clone the Repository
+
+```bash
+cd ~/ros2_ws/src
+git clone <repository-url> ros2_mobile_manipulator
+```
+
+### Build the Workspace
 
 ```bash
 cd ~/ros2_ws
-colcon build
+colcon build --packages-select robot_description robot_bringup
 source install/setup.bash
 ```
 
----
+## Usage
 
-## ▶️ Launch the Simulation
+### Launch the Complete Simulation
+
+Start the Gazebo simulation with the mobile manipulator:
 
 ```bash
-ros2 launch my_robot_bringup simulation.launch.py
+ros2 launch robot_bringup robot_gazebo.launch.py
 ```
 
-This starts:
+This command initializes:
+- Gazebo Harmonic simulator with the robot world
+- Mobile manipulator robot model
+- ROS 2 Control controllers
+- Gazebo-ROS 2 bridge nodes
+- Joint state publishers and TF broadcasters
 
-- Gazebo Harmonic  
-- The Hercules robot  
-- ROS 2 controllers  
-- Gazebo ↔ ROS 2 bridges  
-- RViz (optional depending on your launch file)
+### Control Interface
 
----
+#### Mobile Base Control
 
-## 🎮 Control the Robot
-
-### Move the mobile base
+Control the differential-drive base using velocity commands:
 
 ```bash
 ros2 topic pub /cmd_vel geometry_msgs/msg/Twist "{linear: {x: 0.5}, angular: {z: 0.0}}"
 ```
 
-### Move the arm joints
+#### Arm Joint Control
+
+Control individual arm joints using position commands:
 
 ```bash
+# Forearm joint (0 to 1.57 rad)
 ros2 topic pub /forearm_joint_cmd_pose std_msgs/msg/Float64 "data: 1.0"
+
+# Hand joint (0 to 1.57 rad)
 ros2 topic pub /hand_joint_cmd_pose std_msgs/msg/Float64 "data: 0.5"
 ```
 
-### View the camera feed in RViz
+#### Camera Visualization
 
-Add an **Image** display and set:
+To view the camera feed in RViz:
 
-```
-/camera/image_raw
-```
+1. Launch RViz: `rviz2`
+2. Add an **Image** display
+3. Set the topic to `/camera/image_raw`
 
----
+## Technical Specifications
 
-## 🦾 Arm Specifications (Course Project Requirements)
+### Mobile Base
 
-### Links
+- **Type**: Differential drive
+- **Control Interface**: Velocity commands (`/cmd_vel`)
+- **Sensors**: Wheel encoders for odometry
 
-- **arm_base_link**  
-  - Box: `0.1 × 0.1 × 0.02`  
-  - Color: orange  
-  - Mass: 0.5  
+### Manipulator Arm
 
-- **forearm_link**  
-  - Cylinder: radius `0.02`, length `0.3`  
-  - Color: yellow  
-  - Mass: 0.3  
+#### Links
 
-- **hand_link**  
-  - Cylinder: radius `0.02`, length `0.3`  
-  - Color: orange  
-  - Mass: 0.3  
+| Link | Geometry | Dimensions | Mass (kg) | Color |
+|------|----------|------------|-----------|-------|
+| arm_base_link | Box | 0.1 × 0.1 × 0.02 m | 0.5 | Orange |
+| forearm_link | Cylinder | r=0.02 m, l=0.3 m | 0.3 | Yellow |
+| hand_link | Cylinder | r=0.02 m, l=0.3 m | 0.3 | Orange |
 
-### Joints
+#### Joints
 
-- **arm_base → forearm**  
-  - Revolute  
-  - Limits: `0 → π/2`  
-  - Effort: 100  
-  - Velocity: 100  
-  - Dynamics: friction + damping  
+| Joint | Type | Range | Effort (N⋅m) | Velocity (rad/s) |
+|-------|------|-------|--------------|------------------|
+| arm_base → forearm | Revolute | 0 → π/2 rad | 100 | 100 |
+| forearm → hand | Revolute | 0 → π/2 rad | 100 | 100 |
 
-- **forearm → hand**  
-  - Same specs as above  
+Both joints include friction and damping dynamics for realistic simulation.
 
-### Gazebo Plugins
+#### Controllers
 
-- `JointStatePublisher`  
-- `JointPositionController` (one per joint)  
-  - p_gain: 5.0 (forearm), 3.0 (hand)
+- **Joint State Publisher**: Publishes current joint positions
+- **Position Controllers**: Individual controllers per joint
+  - Forearm: P-gain = 5.0
+  - Hand: P-gain = 3.0
 
----
+### Camera
 
-## 🧠 How the Project Was Built (Course Steps)
+- **Type**: RGB camera
+- **Topic**: `/camera/image_raw`
+- **Frame**: Camera optical frame with proper orientation
 
-### Step 1 — Build the arm
-- Create `arm.xacro` and `standalone_arm.urdf.xacro`
-- Add visual links + joints
-- Test in RViz
+## Development
 
-### Step 2 — Add physics
-- Add collision + inertia  
-- Add joint dynamics  
-- Test in Gazebo
+### Architecture Overview
 
-### Step 3 — Add control
-- Add JointStatePublisher  
-- Add JointPositionController  
-- Bridge topics  
-- Publish commands from the terminal
+The system follows a modular ROS 2 architecture:
 
-### Step 4 — Integrate with mobile base
-- Attach arm to `base_link`  
-- Launch full robot in Gazebo  
-- Test base + arm + camera together
+1. **Robot Description** (`robot_description`): Contains all URDF/Xacro files defining the robot's physical and visual properties
+2. **Bringup** (`robot_bringup`): Launch files and configuration for simulation and control
+3. **Control Layer**: ROS 2 Control framework manages joint controllers
+4. **Bridge Layer**: Gazebo-ROS bridge handles communication between simulator and ROS 2
 
----
+### Development Workflow
 
-## 🖼️ Screenshots
+1. **Modeling**: Define robot geometry and properties in URDF/Xacro
+2. **Visualization**: Test visual appearance in RViz
+3. **Physics**: Add collision and inertia properties
+4. **Simulation**: Integrate with Gazebo for physics simulation
+5. **Control**: Implement controllers and bridge topics
+6. **Testing**: Validate functionality in complete system
 
-*(Add your RViz and Gazebo screenshots here.)*
+## Future Enhancements
 
----
+- [ ] Gripper integration for manipulation tasks
+- [ ] MoveIt2 integration for inverse kinematics and motion planning
+- [ ] LIDAR sensor for obstacle detection
+- [ ] Nav2 integration for autonomous navigation
+- [ ] SLAM capabilities for mapping and localization
+- [ ] Perception pipeline for object detection and recognition
+- [ ] Behavior trees for task planning
+- [ ] Multi-robot coordination
 
-## 🛠️ Future Work
+## License
 
-- Add a gripper  
-- Add MoveIt2 for IK + motion planning  
-- Add LIDAR or depth camera  
-- Add Navigation2 for autonomous navigation  
-- Add behavior trees or mission scripts  
-- Add SLAM  
-- Add perception pipelines  
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
----
+## Acknowledgments
 
-## 📄 License
-
-Choose one:
-
-- MIT  
-
----
-
-## 🙌 Credits
-
-This project was built as part of the  
-**ROS2 For Beginners Level 2 — Final Project**,  
-and extended with additional features (camera, improved URDF, Harmonic support).
+This project was developed as part of the ROS 2 For Beginners Level 2 course and has been extended with additional features including camera integration, improved URDF architecture, and Gazebo Harmonic compatibility.

@@ -73,7 +73,8 @@ def generate_launch_description():
         [
             gz_launch,
             robot_state_publisher_node,
-            joint_state_publisher_node,
+            # Uncomment to use GUI
+            # joint_state_publisher_node,
             rviz_node,
             spawn_entity,
         ]

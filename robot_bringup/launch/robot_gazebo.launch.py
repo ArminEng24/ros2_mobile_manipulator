@@ -21,6 +21,13 @@ def generate_launch_description():
         "rviz",
         "rviz_config.rviz",
     )
+
+    gazebo_world_path = os.path.join(
+        get_package_share_path("robot_bringup"),
+        "world",
+        "robot_world.sdf",
+    )
+
     # Generate xacro command to process the URDF file
     robot_description = ParameterValue(Command(["xacro ", urdf_path]), value_type=str)
 
@@ -51,7 +58,7 @@ def generate_launch_description():
         PythonLaunchDescriptionSource(
             str(get_package_share_path("ros_gz_sim") / "launch" / "gz_sim.launch.py")
         ),
-        launch_arguments={"gz_args": "-r empty.sdf"}.items(),
+        launch_arguments={"gz_args": f"-r {gazebo_world_path}"}.items(),
     )
 
     # Node to spawn the robot into Gazebo

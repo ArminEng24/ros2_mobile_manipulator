@@ -1,3 +1,21 @@
-<? xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<?xml version="1.0"?>
+<robot name="common_properties" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <!-- Common materials -->
+    <material name="blue">
+        <color rgba="0 0 0.8 1"/>
+    </material>
+
+    <material name="grey">
+        <color rgba="0.5 0.5 0.5 1"/>
+    </material>
+
+    <material name="yellow">
+        <color rgba="0.8 0.8 0 1"/>
+    </material>
+
+    <material name="orange">
+        <color rgba="0.8 0.4 0 1"/>
+    </material>
+
 </robot>

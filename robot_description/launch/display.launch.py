@@ -18,7 +18,7 @@ def generate_launch_description():
     rviz_config_path = os.path.join(
         get_package_share_path("robot_description"),
         "rviz",
-        "mobile_manipulator.rviz",
+        "rviz_config.rviz",
     )
     # Generate xacro command to process the URDF file
     robot_description = ParameterValue(Command(["xacro ", urdf_path]), value_type=str)

@@ -9,7 +9,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 
 INSTALL (
-  DIRECTORY launch world
+  DIRECTORY launch world models bridge_config
   DESTINATION share/${PROJECT_NAME}/
 )
 

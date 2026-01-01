@@ -9,7 +9,7 @@
 <!-- Include arm -->
 <xacro:include filename="arm.xacro"/>
 <!-- Include mobile base gazebo plugins -->
- <xacro:include filename="mobile_base_gazebo.xacro" />
+ <xacro:include filename="mobile_gazebo.xacro" />
 <!-- Include camera -->
 <xacro:include filename="camera.xacro"/>
 

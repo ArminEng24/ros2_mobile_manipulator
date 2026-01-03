@@ -1,279 +1,81 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<!-- ========================= -->
-<!-- BASE LINK -->
-<!-- ========================= -->
-<link name="gripper_base_link">
+<xacro:property name="base_cylinder_height" value="0.060"/>
+<xacro:property name="base_cylinder_radius" value="0.12"/>
+
+<xacro:property name="mass_base_cylinder" value="1.5"/>
+<xacro:property name="mass_rotary_bearing" value="1.0"/>
+<xacro:property name="mass_waist_structure" value="3.0"/>
+
+<xacro:property name="mass_slider_carriage" value="1.8"/>
+<xacro:property name="mass_shoulder" value="2.0"/>
+<xacro:property name="mass_elbow" value="1.7"/>
+<xacro:property name="mass_wrist" value="1.1"/>
+<xacro:property name="mass_finger" value="0.25"/>
+
+<link name="arm_base_link">
   <visual>
     <geometry>
-      <mesh filename="file:///home/linos/cad_projects/gripper/base.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="file:///home/linos/cad_projects/gripper/v1.2/base.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <origin xyz="0 ${0.0402/2} ${0.04-0.01}" rpy="${pi} 0 0"/>
-    <material name="blue"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <material name="gray"/>
   </visual>
 
-  <!-- CYLINDER COLLISION -->
   <collision>
-    <origin xyz="0.04 ${0.0402/2-0.02} ${0.02}" rpy="${pi} 0 0"/>
     <geometry>
-      <cylinder radius="0.06" length="0.06"/>
+      <cylinder radius="${base_cylinder_radius}" length="${base_cylinder_height}"/>
     </geometry>
   </collision>
 
-  <!-- BOX COLLISION -->
-  <collision>
-    <origin xyz="0.008 0 0.21" rpy="${pi} 0 0"/>
-    <geometry>
-      <box size="0.06 0.1 0.317"/>
-    </geometry>
-  </collision>
-
-  <!-- INERTIA USING MACROS -->
   <xacro:cylinder_inertia 
-      m="0.8"
-      r="0.06"
-      h="0.06"
-      o_xyz="0.04 ${0.0402/2-0.02} 0.02"
-      o_rpy="${pi} 0 0"/>
-
-  <xacro:box_inertia
-      m="2.2"
-      x="0.06"
-      y="0.1"
-      z="0.317"
-      o_xyz="0.008 0 0.21"
-      o_rpy="${pi} 0 0"/>
-</link>
-
-
-<!-- ========================= -->
-<!-- SLIDER -->
-<!-- ========================= -->
-<link name="slider_carriage_link">
-  <visual>
-    <geometry>
-      <mesh filename="file:///home/linos/cad_projects/gripper/slider_carriage.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <origin xyz="0 ${-0.0342/2} 0.253" rpy="0 0 0"/>
-    <material name="green"/>
-  </visual>
-
-  <collision>
-    <geometry>
-      <box size="0.06 0.04 0.07"/>
-    </geometry>
-    <origin xyz="0.07 0 0.01" rpy="0 0 0"/>
-  </collision>
-
-  <xacro:box_inertia
-      m="0.6"
-      x="0.06"
-      y="0.04"
-      z="0.07"
-      o_xyz="0.07 0 0.01"
+      m="${mass_base_cylinder}"
+      r="${base_cylinder_radius}"
+      h="${base_cylinder_height}"
+      o_xyz="0 0 0"
       o_rpy="0 0 0"/>
 </link>
 
-
-<!-- ========================= -->
-<!-- SHOULDER -->
-<!-- ========================= -->
-<link name="shoulder_link">
+<link name="waist_link">
   <visual>
     <geometry>
-      <mesh filename="file:///home/linos/cad_projects/gripper/shoulder.stl" scale="0.001 0.001 0.001"/>
+      <mesh filename="file:///home/linos/cad_projects/gripper/v1.2/waist.stl" scale="0.001 0.001 0.001"/>
     </geometry>
-    <origin xyz="-0.08 ${-0.0342/2} 0.253" rpy="0 0 0"/>
+    <origin xyz="0 0 ${-base_cylinder_height}" rpy="0 0 0"/>
     <material name="yellow"/>
   </visual>
 
   <collision>
     <geometry>
-      <box size="0.123 0.0235 0.066"/>
+      <box size="0.06 0.10 0.317"/>
     </geometry>
-    <origin xyz="0.06 0.03 0.01" rpy="0 0 ${pi/7}"/>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
   </collision>
 
   <xacro:box_inertia
-      m="0.5"
-      x="0.123"
-      y="0.0235"
-      z="0.066"
-      o_xyz="0.06 0.03 0.01"
-      o_rpy="0 0 ${pi/7}"/>
+      m="${mass_rotary_bearing + mass_waist_structure}"
+      x="0.06"
+      y="0.10"
+      z="0.317"
+      o_xyz="0 0 0"
+      o_rpy="0 0 0"/>
 </link>
 
 
-<!-- ========================= -->
-<!-- ELBOW -->
-<!-- ========================= -->
-<link name="elbow_link">
-  <visual>
-    <geometry>
-      <mesh filename="file:///home/linos/cad_projects/gripper/elbow.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <origin xyz="-0.18 -0.047 0.253" rpy="0 0 0"/>
-    <material name="orange"/>
-  </visual>
 
-  <collision>
-    <geometry>
-      <box size="0.123 0.027 0.066"/>
-    </geometry>
-    <origin xyz="0.016 -0.05 0.01" rpy="0 0 -1.25"/>
-  </collision>
-
-  <xacro:box_inertia
-      m="0.4"
-      x="0.123"
-      y="0.027"
-      z="0.066"
-      o_xyz="0.016 -0.05 0.01"
-      o_rpy="0 0 -1.25"/>
-</link>
-
-
-<!-- ========================= -->
-<!-- WRIST -->
-<!-- ========================= -->
-<link name="wrist_link">
-  <visual>
-    <geometry>
-      <mesh filename="file:///home/linos/cad_projects/gripper/wrist.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <origin xyz="-0.0275 -0.02 -0.03" rpy="${-pi/2} 0 0"/>
-    <material name="purple"/>
-  </visual>
-
-  <collision>
-    <geometry>
-      <box size="0.055 0.06 0.04"/>
-    </geometry>
-    <origin xyz="0 0 -0.02" rpy="${-pi/2} 0 0"/>
-  </collision>
-
-  <xacro:box_inertia
-      m="0.4"
-      x="0.055"
-      y="0.06"
-      z="0.04"
-      o_xyz="0 0 -0.02"
-      o_rpy="${-pi/2} 0 0"/>
-</link>
-
-
-<!-- ========================= -->
-<!-- LEFT FINGER -->
-<!-- ========================= -->
-<link name="left_finger_link">
-  <visual>
-    <geometry>
-      <mesh filename="file:///home/linos/cad_projects/gripper/left_finger.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <origin xyz="0.16 0.117 -0.155" rpy="0 ${pi} ${pi/12}"/>
-    <material name="red"/>
-  </visual>
-
-  <collision>
-    <geometry>
-      <box size="0.017 0.037 0.04"/>
-    </geometry>
-    <origin xyz="0 0.02 -0.02" rpy="0 ${pi} 0"/>
-  </collision>
-
-  <xacro:box_inertia
-      m="0.08"
-      x="0.017"
-      y="0.037"
-      z="0.04"
-      o_xyz="0 0.02 -0.02"
-      o_rpy="0 ${pi} 0"/>
-</link>
-
-
-<!-- ========================= -->
-<!-- RIGHT FINGER -->
-<!-- ========================= -->
-<link name="right_finger_link">
-  <visual>
-    <geometry>
-      <mesh filename="file:///home/linos/cad_projects/gripper/right_finger.stl" scale="0.001 0.001 0.001"/>
-    </geometry>
-    <origin xyz="0.215 0.117 -0.155" rpy="0 ${pi} ${pi/12}"/>
-    <material name="red"/>
-  </visual>
-
-  <collision>
-    <geometry>
-      <box size="0.017 0.037 0.04"/>
-    </geometry>
-    <origin xyz="0 0.02 -0.02" rpy="0 ${pi} 0"/>
-  </collision>
-
-  <xacro:box_inertia
-      m="0.08"
-      x="0.017"
-      y="0.037"
-      z="0.04"
-      o_xyz="0 0.02 -0.02"
-      o_rpy="0 ${pi} 0"/>
-</link>
-
-
-<!-- JOINTS (unchanged) -->
-<joint name="arm_base_to_mobile_base" type="fixed">
+<joint name="arm_base_to_mobile_base_link" type="fixed">
   <parent link="mobile_uvc_base_link"/>
-  <child link="gripper_base_link"/>
+  <child link="arm_base_link"/>
   <origin xyz="0 0 0" rpy="0 0 0"/>
 </joint>
 
-<joint name="slider_to_base" type="prismatic">
-  <parent link="gripper_base_link"/>
-  <child link="slider_carriage_link"/>
-  <origin xyz="0 0 ${0.253}" rpy="0 0 0"/>
+<joint name="arm_base_to_waist" type="revolute">
+  <parent link="arm_base_link"/>
+  <child link="waist_link"/>
+  <origin xyz="0 0 ${base_cylinder_height}" rpy="0 0 0"/>
   <axis xyz="0 0 1"/>
-  <limit lower="0" upper="-0.15" effort="50" velocity="0.1"/>
-</joint>
-
-<joint name="shoulder_to_slider" type="revolute">
-  <parent link="slider_carriage_link"/>
-  <child link="shoulder_link"/>
-  <origin xyz="0.08 0 ${0.263/2 -0.1315}" rpy="0 0 0"/>
-  <axis xyz="0 0 1"/>
-  <limit lower="${-pi/2}" upper="${pi/4}" effort="50" velocity="1.0"/>
-</joint>
-
-<joint name="elbow_to_shoulder" type="revolute">
-  <parent link="shoulder_link"/>
-  <child link="elbow_link"/>
-  <origin xyz="0.095 0.047 0" rpy="0 0 0"/>
-  <axis xyz="0 0 1"/>
-  <limit lower="0" upper="3.343" effort="50" velocity="1.0"/>
-</joint>
-
-<joint name="wrist_to_elbow" type="revolute">
-  <parent link="elbow_link"/>
-  <child link="wrist_link"/>
-  <origin xyz="0.025 -0.088 0" rpy="0 0 0"/>
-  <axis xyz="0 0 1"/>
-  <limit lower="${-pi/2}" upper="${pi/2}" effort="50" velocity="1.0"/>
-</joint>
-
-<joint name="left_finger_to_wrist" type="prismatic">
-  <parent link="wrist_link"/>
-  <child link="left_finger_link"/>
-  <origin xyz="0.0275 -0.02 -0.05" rpy="0 0 0"/>
-  <axis xyz="1 0 0"/>
-  <limit lower="-0.015" upper="0.015" effort="20" velocity="0.05"/>
-</joint>
-
-<joint name="right_finger_to_wrist" type="prismatic">
-  <parent link="wrist_link"/>
-  <child link="right_finger_link"/>
-  <origin xyz="-0.02 -0.02 -0.05" rpy="0 0 0"/>
-  <axis xyz="1 0 0"/>
-  <limit lower="-0.015" upper="0.015" effort="20" velocity="0.05"/>
+  <limit lower="${-pi* 5/6}" upper="${pi*5/6}" effort="50" velocity="1.0"/>
 </joint>
 
 </robot>

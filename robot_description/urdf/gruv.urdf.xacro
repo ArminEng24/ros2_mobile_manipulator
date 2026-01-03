@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<robot name="mobile_manipulator" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+
+<!-- Include common properties -->
+<xacro:include filename="common_properties.xacro"/>
+
+<!-- Include mobile uvc -->
+<xacro:include filename="mobile_uvc.xacro"/>
+
+<!-- Include scara arm -->
+<xacro:include filename="scara_arm.xacro"/>

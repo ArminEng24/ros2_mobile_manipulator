@@ -8,10 +8,17 @@ import os
 
 def generate_launch_description():
     #  Define the path to the URDF file
+    # urdf_path = os.path.join(
+    #     get_package_share_path("robot_description"),
+    #     "urdf",
+    #     "mobile_manipulator.urdf.xacro",
+    # )
+
+    #  Define the path to the URDF file
     urdf_path = os.path.join(
         get_package_share_path("robot_description"),
         "urdf",
-        "mobile_manipulator.urdf.xacro",
+        "mobile_uvc.urdf.xacro",
     )
 
     # Define the path to the RViz configuration file

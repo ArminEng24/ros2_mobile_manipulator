@@ -164,8 +164,55 @@
       o_rpy="0 0 0"/>
 </link>
 
+<link name="left_finger_link">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/linos/cad_projects/gripper/v1.2/left_finger.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin xyz="-0.02 -0.639 0.06" rpy="0 ${pi} 0"/>
+    <material name="red"/>
+  </visual>
 
+  <collision>
+    <geometry>
+      <box size="0.017 0.037 0.04"/>
+    </geometry>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </collision>
 
+  <xacro:box_inertia
+      m="${mass_finger}"
+      x="0.017"
+      y="0.037"
+      z="0.04"
+      o_xyz="0 0 0"
+      o_rpy="0 0 0"/>
+</link>
+
+<link name="right_finger_link">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/linos/cad_projects/gripper/v1.2/right_finger.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin xyz="0.02 -0.639 0.06" rpy="0 ${pi} 0"/>
+    <material name="red"/>
+  </visual>
+
+  <collision>
+    <geometry>
+      <box size="0.017 0.037 0.04"/>
+    </geometry>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </collision>
+
+  <xacro:box_inertia
+      m="${mass_finger}"
+      x="0.017"
+      y="0.037"
+      z="0.04"
+      o_xyz="0 0 0"
+      o_rpy="0 0 0"/>
+</link>
 
 <joint name="arm_base_to_mobile_base_link" type="fixed">
   <parent link="mobile_uvc_base_link"/>
@@ -206,12 +253,28 @@
   <limit lower="${-pi/2}" upper="${pi/2}" effort="50" velocity="1.0"/>
 </joint>
 
-<joint name="elbow_to_wrist" type="revolute">
+<joint name="wrist_to_elbow" type="revolute">
   <parent link="elbow_link"/>
   <child link="wrist_link"/>
   <origin xyz="0 0.16 -0.42" rpy="0 ${pi} 0"/>
   <axis xyz="0 0 1"/>
   <limit lower="${-pi/2}" upper="${pi/2}" effort="50" velocity="1.0"/>
+</joint>
+
+<joint name="left_finger_to_wrist" type="prismatic">
+  <parent link="wrist_link"/>
+  <child link="left_finger_link"/>
+  <origin xyz="0.04728 0 0.1139" rpy="0 0 0"/>
+  <axis xyz="1 0 0"/>
+  <limit lower="0" upper="0.04" effort="20" velocity="0.05"/>
+</joint>
+
+<joint name="right_finger_to_wrist" type="prismatic">
+  <parent link="wrist_link"/>
+  <child link="right_finger_link"/>
+  <origin xyz="${-0.04728 -0.018} 0 0.1139" rpy="0 0 0"/>
+  <axis xyz="1 0 0"/>
+  <limit lower="0" upper="0.04" effort="20" velocity="0.05"/>
 </joint>
 
 

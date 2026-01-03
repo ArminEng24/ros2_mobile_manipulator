@@ -1,42 +1,32 @@
 <?xml version="1.0"?>
-<robot name="mobile_uvc" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
   <!-- ========================= -->
   <!--       PROPERTIES          -->
   <!-- ========================= -->
 
-  <!-- Wheel collision radius (all wheels use same radius) -->
   <xacro:property name="wheel_radius" value="0.119289"/>
   <xacro:property name="wheel_width" value="0.160767"/>
 
-  <!-- Roda collision radius -->
   <xacro:property name="roda_radius" value="0.038463"/>
 
-  <!-- Base link visual origin -->
   <xacro:property name="base_x" value="0.102772"/>
   <xacro:property name="base_y" value="-0.213746"/>
   <xacro:property name="base_z" value="-0.353914"/>
 
-  <!-- Wheel visual offsets -->
   <xacro:property name="left_wheel_x" value="0.342038"/>
   <xacro:property name="right_wheel_x" value="-0.136493"/>
   <xacro:property name="wheel_z" value="-0.119289"/>
 
-  <!-- Roda offsets -->
   <xacro:property name="roda_x" value="0.102772"/>
   <xacro:property name="roda_y" value="-0.422475"/>
   <xacro:property name="roda_z" value="-0.045338"/>
 
-  <!-- ========================= -->
-  <!--        MATERIALS          -->
-  <!-- ========================= -->
+  <!-- Masses -->
+  <xacro:property name="base_mass" value="2.5"/>
+  <xacro:property name="wheel_mass" value="0.35"/>
+  <xacro:property name="roda_mass" value="0.2"/>
 
-  <material name="blue"><color rgba="0 0 1 1"/></material>
-  <material name="green"><color rgba="0 1 0 1"/></material>
-  <material name="yellow"><color rgba="1 1 0 1"/></material>
-  <material name="orange"><color rgba="1 0.5 0 1"/></material>
-  <material name="purple"><color rgba="0.5 0 0.5 1"/></material>
-  <material name="red"><color rgba="1 0 0 1"/></material>
 
   <!-- ========================= -->
   <!--        ROOT FRAME         -->
@@ -48,7 +38,7 @@
   <!--     MOBILE BASE LINK      -->
   <!-- ========================= -->
 
-  <link name="mobile_base_link">
+  <link name="mobile_uvc_base_link">
     <visual>
       <geometry>
         <mesh filename="file:///home/linos/cad_projects/mobile/body.stl" scale="0.001 0.001 0.001"/>
@@ -59,10 +49,19 @@
 
     <collision>
       <geometry>
-        <box size=" 0.500 0.849993   0.4 "/>
+        <box size="0.500 0.849993 0.4"/>
       </geometry>
-        <origin xyz="0 0 ${-0.253914/2}" rpy="0 0 0"/>
+      <origin xyz="0 0 ${-0.253914/2}" rpy="0 0 0"/>
     </collision>
+
+    <!-- INERTIA (BOX) -->
+    <xacro:box_inertia
+        m="${base_mass}"
+        x="0.500"
+        y="0.849993"
+        z="0.4"
+        o_xyz="0 0 ${-0.253914/2}"
+        o_rpy="0 0 0"/>
   </link>
 
   <!-- ========================= -->
@@ -84,6 +83,13 @@
       </geometry>
       <origin xyz="${wheel_width/2} 0 0" rpy="0 0 0"/>
     </collision>
+
+    <!-- INERTIA (SPHERE) -->
+    <xacro:sphere_inertia
+        m="${wheel_mass}"
+        r="${wheel_radius}"
+        o_xyz="${wheel_width/2} 0 0"
+        o_rpy="0 0 0"/>
   </link>
 
   <!-- ========================= -->
@@ -105,6 +111,13 @@
       </geometry>
       <origin xyz="${-wheel_width/2} 0 0" rpy="0 0 0"/>
     </collision>
+
+    <!-- INERTIA (SPHERE) -->
+    <xacro:sphere_inertia
+        m="${wheel_mass}"
+        r="${wheel_radius}"
+        o_xyz="${-wheel_width/2} 0 0"
+        o_rpy="0 0 0"/>
   </link>
 
   <!-- ========================= -->
@@ -125,6 +138,13 @@
         <sphere radius="${roda_radius}"/>
       </geometry>
     </collision>
+
+    <!-- INERTIA (SPHERE) -->
+    <xacro:sphere_inertia
+        m="${roda_mass}"
+        r="${roda_radius}"
+        o_xyz="0 0 0"
+        o_rpy="0 0 0"/>
   </link>
 
   <!-- ========================= -->
@@ -133,26 +153,26 @@
 
   <joint name="base_to_base_footprint_joint" type="fixed">
     <parent link="base_footprint"/>
-    <child link="mobile_base_link"/>
+    <child link="mobile_uvc_base_link"/>
     <origin xyz="${-base_x} ${-base_y} ${-base_z}" rpy="0 0 0"/>
   </joint>
 
   <joint name="left_wheel_joint" type="continuous">
-    <parent link="mobile_base_link"/>
+    <parent link="mobile_uvc_base_link"/>
     <child link="left_wheel_link"/>
     <origin xyz="${base_x - left_wheel_x} ${base_y} ${base_z - wheel_z}" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
   </joint>
 
   <joint name="right_wheel_joint" type="continuous">
-    <parent link="mobile_base_link"/>
+    <parent link="mobile_uvc_base_link"/>
     <child link="right_wheel_link"/>
     <origin xyz="${base_x - right_wheel_x} ${base_y} ${base_z - wheel_z}" rpy="0 0 0"/>
     <axis xyz="1 0 0"/>
   </joint>
 
   <joint name="roda_joint" type="continuous">
-    <parent link="mobile_base_link"/>
+    <parent link="mobile_uvc_base_link"/>
     <child link="roda_link"/>
     <origin xyz="${base_x - roda_x} ${base_y - roda_y} ${base_z - roda_z}" rpy="0 0 0"/>
     <axis xyz="0 1 0"/>

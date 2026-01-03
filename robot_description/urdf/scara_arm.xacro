@@ -102,11 +102,36 @@
     <geometry>
       <box size="0.12 0.04 0.06"/>
     </geometry>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <origin xyz="0 -0.358 ${-slider_length + base_cylinder_height - 2 * 0.09}" rpy="0 0 0"/>
   </collision>
 
   <xacro:box_inertia
       m="${mass_shoulder}"
+      x="0.12"
+      y="0.04"
+      z="0.06"
+      o_xyz="0 0 0"
+      o_rpy="0 0 0"/>
+</link>
+
+<link name="elbow_link">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/linos/cad_projects/gripper/v1.2/elbow.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin xyz="0 ${-0.48} ${-slider_length + base_cylinder_height - 2 * 0.09}" rpy="0 0 0"/>
+    <material name="red"/>
+  </visual>
+
+  <collision>
+    <geometry>
+      <box size="0.12 0.04 0.06"/>
+    </geometry>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </collision>
+
+  <xacro:box_inertia
+      m="${mass_elbow}"
       x="0.12"
       y="0.04"
       z="0.06"
@@ -144,7 +169,15 @@
   <parent link="slide_carriage_link"/>
   <child link="shoulder_link"/>
   <origin xyz="0 0.12124 0.06" rpy="0 0 0"/>
-  <axis xyz="0 1 0"/>
+  <axis xyz="0 0 1"/>
+  <limit lower="${-pi/2}" upper="${pi/2}" effort="50" velocity="1.0"/>
+</joint>
+
+<joint name="elbow_to_shoulder" type="revolute">
+  <parent link="shoulder_link"/>
+  <child link="elbow_link"/>
+  <origin xyz="0 0.358 0" rpy="0 0 0"/>
+  <axis xyz="0 0 1"/>
   <limit lower="${-pi/2}" upper="${pi/2}" effort="50" velocity="1.0"/>
 </joint>
 

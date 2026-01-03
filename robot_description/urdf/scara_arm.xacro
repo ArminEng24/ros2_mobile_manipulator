@@ -3,6 +3,7 @@
 
 <xacro:property name="base_cylinder_height" value="0.060"/>
 <xacro:property name="base_cylinder_radius" value="0.12"/>
+<xacro:property name="slider_length" value="0.472"/>
 
 <xacro:property name="mass_base_cylinder" value="1.5"/>
 <xacro:property name="mass_rotary_bearing" value="1.0"/>
@@ -62,6 +63,33 @@
       o_rpy="0 0 0"/>
 </link>
 
+<link name="slide_carriage_link">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/linos/cad_projects/gripper/v1.2/slider_carriage.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin xyz="0 0 ${-slider_length - base_cylinder_height}" rpy="0 0 0"/>
+    <material name="green"/>
+  </visual>
+
+  <collision>
+    <geometry>
+      <box size="0.06 0.04 0.07"/>
+    </geometry>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </collision>
+
+  <xacro:box_inertia
+      m="${mass_slider_carriage}"
+      x="0.06"
+      y="0.04"
+      z="0.07"
+      o_xyz="0 0 0"
+      o_rpy="0 0 0"/>
+</link>
+
+
+
 
 
 <joint name="arm_base_to_mobile_base_link" type="fixed">
@@ -77,5 +105,14 @@
   <axis xyz="0 0 1"/>
   <limit lower="${-pi* 5/6}" upper="${pi*5/6}" effort="50" velocity="1.0"/>
 </joint>
+
+<joint name="slide_carriage_to_slider" type="prismatic">
+  <parent link="waist_link"/>
+  <child link="slide_carriage_link"/>
+  <origin xyz="0 0 ${base_cylinder_height + slider_length - 0.09 + 0.05}" rpy="0 0 0"/>
+  <axis xyz="0 0 1"/>
+  <limit lower="${-slider_length + 0.126}" upper="${0}" effort="50" velocity="0.1"/>
+</joint>
+
 
 </robot>

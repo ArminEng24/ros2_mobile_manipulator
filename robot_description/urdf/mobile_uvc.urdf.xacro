@@ -1,0 +1,91 @@
+<?xml version="1.0"?>
+<robot name="mobile_uvc" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<material name="blue"><color rgba="0 0 1 1"/></material>
+<material name="green"><color rgba="0 1 0 1"/></material>
+<material name="yellow"><color rgba="1 1 0 1"/></material>
+<material name="orange"><color rgba="1 0.5 0 1"/></material>
+<material name="purple"><color rgba="0.5 0 0.5 1"/></material>
+<material name="red"><color rgba="1 0 0 1"/></material>
+
+<!-- ROOT FRAME -->
+<link name="base_footprint"/>
+
+<!-- MOBILE ROBOT BODY -->
+<link name="mobile_base_link">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/linos/cad_projects/mobile/body.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin xyz="0.102772 -0.213746 -0.353914" rpy="0 0 0"/>
+    <material name="blue"/>
+  </visual>
+</link>
+
+<!-- LEFT WHEEL -->
+<link name="left_wheel_link">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/linos/cad_projects/mobile/left_wheel.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin xyz="${0.342038} 0 ${ - 0.119289}" rpy="0 0 0"/>
+    <material name="green"/>
+  </visual>
+</link>
+
+
+
+<!-- RIGHT WHEEL -->
+<link name="right_wheel_link">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/linos/cad_projects/mobile/right_wheel.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin xyz="${- 0.136493} 0 ${ - 0.119289}" rpy="0 0 0"/>
+    <material name="green"/>
+  </visual>
+</link>
+
+
+<!-- RODA (third wheel or caster) -->
+<link name="roda_link">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/linos/cad_projects/mobile/roda.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin xyz="0.102772 -0.422475 -0.045338" rpy="0 0 0"/>
+    <material name="green"/>
+  </visual>
+</link>
+
+
+<!-- FIXED JOINT BETWEEN FOOTPRINT AND MOBILE BASE -->
+<joint name="base_to_base_footprint_joint" type="fixed">
+  <parent link="base_footprint"/>
+  <child link="mobile_base_link"/>
+  <origin xyz="-0.102772 0.213746 0.353914" rpy="0 0 0"/>
+</joint>
+
+<joint name="left_wheel_joint" type="continuous">
+  <parent link="mobile_base_link"/>
+  <child link="left_wheel_link"/>
+  <origin xyz="${0.102772 - 0.342038} -0.213746 ${-0.353914 + 0.119289}" rpy="0 0 0"/>
+  <axis xyz="1 0 0"/>
+</joint>
+
+
+<joint name="right_wheel_joint" type="continuous">
+  <parent link="mobile_base_link"/>
+  <child link="right_wheel_link"/>
+  <origin xyz="${0.102772 + 0.136493} -0.213746 ${-0.353914 + 0.119289}" rpy="0 0 0"/>
+  <axis xyz="1 0 0"/>
+</joint>
+
+<joint name="roda_joint" type="continuous">
+  <parent link="mobile_base_link"/>
+  <child link="roda_link"/>
+  <origin xyz="${0.102772 -0.102772} ${-0.213746 +0.422475} ${-0.353914 + 0.045338}" rpy="0 0 0"/>
+  <axis xyz="0 1 0"/>
+</joint>
+
+</robot>

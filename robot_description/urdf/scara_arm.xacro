@@ -139,6 +139,31 @@
       o_rpy="0 0 0"/>
 </link>
 
+<link name="wrist_link">
+  <visual>
+    <geometry>
+      <mesh filename="file:///home/linos/cad_projects/gripper/v1.2/wrist.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <origin xyz="0 0.639 0.17" rpy="${pi} 0 0"/>
+    <material name="purple"/>
+  </visual>
+
+  <collision>
+    <geometry>
+      <box size="0.055 0.06 0.04"/>
+    </geometry>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </collision>
+
+  <xacro:box_inertia
+      m="${mass_wrist}"
+      x="0.055"
+      y="0.06"
+      z="0.04"
+      o_xyz="0 0 0"
+      o_rpy="0 0 0"/>
+</link>
+
 
 
 
@@ -180,5 +205,15 @@
   <axis xyz="0 0 1"/>
   <limit lower="${-pi/2}" upper="${pi/2}" effort="50" velocity="1.0"/>
 </joint>
+
+<joint name="elbow_to_wrist" type="revolute">
+  <parent link="elbow_link"/>
+  <child link="wrist_link"/>
+  <origin xyz="0 0.16 -0.42" rpy="0 ${pi} 0"/>
+  <axis xyz="0 0 1"/>
+  <limit lower="${-pi/2}" upper="${pi/2}" effort="50" velocity="1.0"/>
+</joint>
+
+
 
 </robot>

@@ -5,9 +5,9 @@
 <!-- Include common properties -->
 <xacro:include filename="common_properties.xacro"/>
 <!-- Include mobile base -->
-<xacro:include filename="mobile_base.xacro"/>
+<xacro:include filename="mobile_uvc.xacro"/>
 <!-- Include arm -->
-<xacro:include filename="arm.xacro"/>
+<xacro:include filename="scara_arm.xacro"/>
 <!-- Include mobile base gazebo plugins -->
  <xacro:include filename="mobile_gazebo.xacro" />
 <!-- Include camera -->

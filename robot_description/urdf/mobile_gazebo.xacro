@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<gazebo reference="caster_wheel_link">
+<gazebo reference="roda_link">
     <mu1 value="0.1"/>
     <mu2 value="0.1"/>
 </gazebo>
@@ -12,7 +12,7 @@
         name="gz::sim::systems::DiffDrive">
         <left_joint>left_wheel_joint</left_joint>
         <right_joint>right_wheel_joint</right_joint>
-        <wheel_separation>${base_width + 2*wheel_width/2}</wheel_separation>
+        <wheel_separation>${base_width + wheel_width}</wheel_separation>
         <wheel_radius>${wheel_radius}</wheel_radius>
         <frame_id>odom</frame_id>
         <child_frame_id>base_footprint</child_frame_id>
@@ -26,8 +26,14 @@
         name="gz::sim::systems::JointStatePublisher">
         <joint_name>left_wheel_joint</joint_name>
         <joint_name>right_wheel_joint</joint_name>
-        <joint_name>forearm_joint_to_arm_base</joint_name>
-        <joint_name>hand_joint_to_forearm</joint_name>
+        <joint_name>roda_joint</joint_name>
+        <joint_name>arm_base_to_waist</joint_name>
+        <joint_name>slide_carriage_to_slider</joint_name>
+        <joint_name>shoulder_to_slide_carriage</joint_name>
+        <joint_name>elbow_to_shoulder</joint_name>
+        <joint_name>wrist_to_elbow</joint_name>
+        <joint_name>left_finger_to_wrist</joint_name>
+        <joint_name>right_finger_to_wrist</joint_name>
     </plugin>
 </gazebo>
 

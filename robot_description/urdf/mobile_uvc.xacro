@@ -7,6 +7,9 @@
 
   <xacro:property name="wheel_radius" value="0.119289"/>
   <xacro:property name="wheel_width" value="0.160767"/>
+  <xacro:property name="base_width" value="0.478531"/>
+  <xacro:property name="base_length" value="0.849993"/>
+  <xacro:property name="base_height" value="0.253914"/>
 
   <xacro:property name="roda_radius" value="0.038463"/>
 
